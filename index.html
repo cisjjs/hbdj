@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tanti Auguri Beatrice</title>
+  <!-- Importazione font e animazioni -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Impostazioni di base per tutto il body */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black; /* Sfondo nero */
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Bottone iniziale */
+    #start-button {
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      font-size: 2rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    /* Animazione al passaggio del mouse */
+    #start-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Contenuto nascosto all'inizio */
+    #main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    /* Titolo di auguri */
+    #auguri {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    /* Stemma Ferrari */
+    #ferrari-logo {
+      width: 150px;
+      height: auto;
+      animation: shake 2s infinite alternate; /* Animazione del cavallino */
+    }
+
+    /* Animazione "shake" */
+    @keyframes shake {
+      0% { transform: rotate(-2deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    /* Aggiunta di stelle animate sullo sfondo */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: url('https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif');
+      background-size: cover;
+      opacity: 0.2;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #auguri {
+        font-size: 2rem;
+      }
+
+      #start-button {
+        font-size: 1.5rem;
+        padding: 15px 30px;
+      }
+
+      #ferrari-logo {
+        width: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sfondo stellato animato -->
+  <div class="stars"></div>
+
+  <!-- Bottone iniziale -->
+  <button id="start-button">Premi</button>
+
+  <!-- Contenuto dopo il click -->
+  <div id="main-content">
+    <div id="auguri">Tanti Auguri Beatrice! 🎉</div>
+    <!-- Immagine Ferrari animata (simulata con animazione shake) -->
+    <img id="ferrari-logo" src="https://upload.wikimedia.org/wikipedia/it/thumb/9/9b/Scuderia_Ferrari_Logo.svg/2048px-Scuderia_Ferrari_Logo.svg.png" alt="Ferrari Logo" />
+  </div>
+
+  <script>
+    // Gestione click bottone
+    document.getElementById('start-button').addEventListener('click', function () {
+      // Nasconde il bottone
+      this.style.display = 'none';
+      // Mostra il contenuto principale
+      document.getElementById('main-content').style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
