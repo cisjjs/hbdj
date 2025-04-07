@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auguri Beatrice</title>
-  <!-- Importazione font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <audio id="sound" src="https://www.myinstants.com/media/sounds/party-horn.mp3"></audio>
+  <audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_0e7b9c4dc5.mp3" autoplay loop></audio>
   <style>
-    /* Stili di base per tutto il documento */
     body {
       margin: 0;
       padding: 0;
@@ -15,10 +15,8 @@
       overflow: hidden;
     }
 
-    /* Contenitore iniziale con sfondo nero */
     #intro {
       background-color: black;
-      color: white;
       width: 100vw;
       height: 100vh;
       display: flex;
@@ -27,7 +25,6 @@
       position: relative;
     }
 
-    /* Bottone cliccabile iniziale */
     #click-btn {
       background-color: red;
       color: white;
@@ -37,60 +34,132 @@
       border-radius: 15px;
       cursor: pointer;
       position: absolute;
-      transition: all 0.5s ease;
+      transition: all 0.6s ease;
     }
 
-    /* Seconda schermata con decorazioni di compleanno */
+    .zoom-out-in {
+      animation: zoom 1.5s ease-in-out;
+    }
+
+    @keyframes zoom {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.3); }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
     #birthday {
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(to right, #ffccff, #ffe6e6);
-      color: #660000;
+      background: linear-gradient(135deg, #ff0000, #000);
       width: 100vw;
       height: 100vh;
       text-align: center;
       padding: 20px;
       box-sizing: border-box;
+      transform: scale(0);
+      transition: transform 1s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Titolo principale */
-    #birthday h1 {
-      font-size: 3rem;
-      margin-bottom: 30px;
-    }
-
-    /* Torta disegnata con caratteri */
-    .ascii-cake {
-      font-family: monospace;
-      white-space: pre;
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
-
-    /* Logo Ferrari fatto con puntini */
-    .ferrari-dots {
-      font-family: monospace;
-      white-space: pre;
-      font-size: 0.7rem;
-      color: #cc0000;
-    }
-
-    /* Animazione di coriandoli con GIF */
-    .confetti {
-      position: fixed;
+    #birthday::before {
+      content: "";
+      position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-image: url('https://media.giphy.com/media/26gJyJ5wVD5Q6kYgA/giphy.gif');
-      background-size: cover;
-      z-index: -1;
-      opacity: 0.5;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9b/Ferrari_Logo.svg');
+      background-size: 20%;
+      background-repeat: repeat;
+      opacity: 0.03;
+      pointer-events: none;
     }
 
-    /* Responsive per schermi piccoli */
+    #birthday.show {
+      display: flex;
+      transform: scale(1);
+    }
+
+    #birthday h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: white;
+      text-shadow: 2px 2px 4px #000;
+      z-index: 1;
+    }
+
+    .cake {
+      font-family: monospace;
+      color: #fff;
+      white-space: pre;
+      margin-bottom: 30px;
+      z-index: 1;
+    }
+
+    .cake pre {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .candle {
+      width: 10px;
+      height: 20px;
+      background: orange;
+      margin: 0 5px;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .flame {
+      width: 8px;
+      height: 8px;
+      background: yellow;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      left: 1px;
+      animation: flicker 0.3s infinite;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .gifts {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .gift {
+      width: 100px;
+      height: 100px;
+      background: url('https://media.giphy.com/media/3oEjHCWdU7F4F3a95C/giphy.gif') center/contain no-repeat;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .gift.opened {
+      background: none;
+      border: 2px dashed white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 5px;
+    }
+
     @media (max-width: 768px) {
       #click-btn {
         font-size: 1.5rem;
@@ -103,72 +172,124 @@
   </style>
 </head>
 <body>
-  <!-- Prima schermata -->
   <div id="intro">
     <button id="click-btn">Clicca</button>
   </div>
 
-  <!-- Seconda schermata di auguri -->
   <div id="birthday">
-    <div class="confetti"></div>
     <h1>Tanti Auguri Beatrice! 🎉</h1>
-    <div class="ascii-cake">
-      <!-- Torta disegnata con caratteri -->
+    <div class="cake">
+      <div>
+        <span class="candle"><div class="flame"></div></span>
+        <span class="candle"><div class="flame"></div></span>
+        <span class="candle"><div class="flame"></div></span>
+      </div>
       <pre>
-         ,   ,   ,
-        |\\_|\\_|\\_
-        |           |
-        |  HAPPY    |
-        |  BIRTHDAY |
-        |___________|
-        \___________/
-         |    |    |
-         *    *    *
+         i i i
+        |:H:|:B:|
+       __|___|___|__
+      |           |
+      |  TANTI     |
+      |  AUGURI!   |
+     [___________]
+      \_________/
       </pre>
     </div>
-    <div class="ferrari-dots">
-      <!-- Ferrari fatto a puntini -->
-      <pre>
-        .     .
-       ..    ..
-      ...   ...   .''.
-      .... ....  :_\/_:
-      '.......'  : /\ :
-         ||||     '..'
-         ||||     ||||
-         ||||     ||||
-         ''''     ''''
-      </pre>
-    </div>
+
+    <div class="gifts" id="gift-container"></div>
   </div>
 
   <script>
-    // Seleziono il bottone e tengo conto del numero di clic
     const button = document.getElementById('click-btn');
+    const intro = document.getElementById('intro');
+    const birthday = document.getElementById('birthday');
+    const sound = document.getElementById('sound');
+    const music = document.getElementById('music');
     let clickCount = 0;
 
-    // Array di posizioni per far muovere il bottone
     const positions = [
       { top: '10%', left: '10%' },
       { top: '70%', left: '20%' },
-      { top: '40%', left: '60%' }
+      { top: '40%', left: '60%' },
+      { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
     ];
 
-    // Aggiungo evento click
+    const messages = [
+      "Hai più penalità di Sainz in curva 1 🚫",
+      "Allenamento finito? Ne dubito 🥋",
+      "Sei lenta come un pit stop Ferrari 😅",
+      "Occhio che ti parte un gancio anche sulla torta 🥊",
+      "Più colpi di scena che nel GP d’Ungheria 🇭🇺",
+      "Chi ha ordinato una torta con una combo 1-2? 🥋🎂",
+      "Oggi ti fai superare anche dalla safety car 🟡",
+      "Torta sì, ma con pugni ben assestati 💥",
+      "Il tuo compleanno ha più errori strategici del box Ferrari 📉",
+      "Un jab per ogni anno compiuto, sei pronta? 🥊",
+      "Festeggi come se avessi vinto in Thailandia 🐘",
+      "Sorridi che nemmeno il DRS ti raggiunge 😄",
+      "Sei ufficialmente in modalità "carico gara" ⚡",
+      "Meglio regali o KO al primo round? 🤔",
+      "Attenta: oggi non si scherza... si tira! 👊"
+    ];
+
+    function randomFromArray(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function randomStartPosition() {
+      const start = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
+      button.style.top = start.top;
+      button.style.left = start.left;
+      button.style.transform = start.transform;
+    }
+
+    randomStartPosition();
+
     button.addEventListener('click', () => {
+      sound.currentTime = 0;
+      sound.play();
       clickCount++;
 
-      // Se siamo tra il primo e il terzo click, muovo il bottone
-      if (clickCount <= 3) {
+      if (clickCount < 4) {
         const pos = positions[clickCount - 1];
         button.style.top = pos.top;
         button.style.left = pos.left;
+        button.style.transform = pos.transform || '';
       } else {
-        // Alla quarta pressione cambio schermata
-        document.getElementById('intro').style.display = 'none';
-        document.getElementById('birthday').style.display = 'flex';
+        button.classList.add('zoom-out-in');
+        setTimeout(() => {
+          intro.style.display = 'none';
+          birthday.classList.add('show');
+        }, 1500);
+        loadRandomGifts();
       }
     });
+
+    document.querySelectorAll('.candle').forEach(candle => {
+      candle.addEventListener('click', () => {
+        const flame = candle.querySelector('.flame');
+        if (flame) flame.remove();
+      });
+    });
+
+    function loadRandomGifts() {
+      const giftContainer = document.getElementById('gift-container');
+      giftContainer.innerHTML = '';
+      const shuffled = messages.sort(() => 0.5 - Math.random()).slice(0, 4);
+      shuffled.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'gift';
+        div.setAttribute('data-message', msg);
+        div.addEventListener('click', () => {
+          if (!div.classList.contains('opened')) {
+            div.textContent = msg;
+            div.classList.add('opened');
+          }
+        });
+        giftContainer.appendChild(div);
+      });
+    }
   </script>
 </body>
 </html>
+
