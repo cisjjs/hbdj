@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tanti Auguri Beatrice</title>
-  <!-- Importazione font e animazioni -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auguri Beatrice</title>
+  <!-- Importazione font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Impostazioni di base per tutto il body */
+    /* Stili di base per tutto il documento */
     body {
       margin: 0;
       padding: 0;
-      background-color: black; /* Sfondo nero */
       font-family: 'Montserrat', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       overflow: hidden;
     }
 
-    /* Bottone iniziale */
-    #start-button {
+    /* Contenitore iniziale con sfondo nero */
+    #intro {
+      background-color: black;
+      color: white;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Bottone cliccabile iniziale */
+    #click-btn {
       background-color: red;
       color: white;
       padding: 20px 40px;
@@ -29,93 +36,138 @@
       border: none;
       border-radius: 15px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      position: absolute;
+      transition: all 0.5s ease;
     }
 
-    /* Animazione al passaggio del mouse */
-    #start-button:hover {
-      transform: scale(1.1);
-    }
-
-    /* Contenuto nascosto all'inizio */
-    #main-content {
+    /* Seconda schermata con decorazioni di compleanno */
+    #birthday {
       display: none;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, #ffccff, #ffe6e6);
+      color: #660000;
+      width: 100vw;
+      height: 100vh;
       text-align: center;
-      color: white;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    /* Titolo di auguri */
-    #auguri {
+    /* Titolo principale */
+    #birthday h1 {
       font-size: 3rem;
+      margin-bottom: 30px;
+    }
+
+    /* Torta disegnata con caratteri */
+    .ascii-cake {
+      font-family: monospace;
+      white-space: pre;
+      font-size: 1rem;
       margin-bottom: 20px;
     }
 
-    /* Stemma Ferrari */
-    #ferrari-logo {
-      width: 150px;
-      height: auto;
-      animation: shake 2s infinite alternate; /* Animazione del cavallino */
+    /* Logo Ferrari fatto con puntini */
+    .ferrari-dots {
+      font-family: monospace;
+      white-space: pre;
+      font-size: 0.7rem;
+      color: #cc0000;
     }
 
-    /* Animazione "shake" */
-    @keyframes shake {
-      0% { transform: rotate(-2deg); }
-      100% { transform: rotate(2deg); }
-    }
-
-    /* Aggiunta di stelle animate sullo sfondo */
-    .stars {
+    /* Animazione di coriandoli con GIF */
+    .confetti {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: url('https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif');
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://media.giphy.com/media/26gJyJ5wVD5Q6kYgA/giphy.gif');
       background-size: cover;
-      opacity: 0.2;
+      z-index: -1;
+      opacity: 0.5;
     }
 
-    /* Responsive */
+    /* Responsive per schermi piccoli */
     @media (max-width: 768px) {
-      #auguri {
-        font-size: 2rem;
-      }
-
-      #start-button {
+      #click-btn {
         font-size: 1.5rem;
         padding: 15px 30px;
       }
-
-      #ferrari-logo {
-        width: 100px;
+      #birthday h1 {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Sfondo stellato animato -->
-  <div class="stars"></div>
+  <!-- Prima schermata -->
+  <div id="intro">
+    <button id="click-btn">Clicca</button>
+  </div>
 
-  <!-- Bottone iniziale -->
-  <button id="start-button">Premi</button>
-
-  <!-- Contenuto dopo il click -->
-  <div id="main-content">
-    <div id="auguri">Tanti Auguri Beatrice! 🎉</div>
-    <!-- Immagine Ferrari animata (simulata con animazione shake) -->
-    <img id="ferrari-logo" src="https://upload.wikimedia.org/wikipedia/it/thumb/9/9b/Scuderia_Ferrari_Logo.svg/2048px-Scuderia_Ferrari_Logo.svg.png" alt="Ferrari Logo" />
+  <!-- Seconda schermata di auguri -->
+  <div id="birthday">
+    <div class="confetti"></div>
+    <h1>Tanti Auguri Beatrice! 🎉</h1>
+    <div class="ascii-cake">
+      <!-- Torta disegnata con caratteri -->
+      <pre>
+         ,   ,   ,
+        |\\_|\\_|\\_
+        |           |
+        |  HAPPY    |
+        |  BIRTHDAY |
+        |___________|
+        \___________/
+         |    |    |
+         *    *    *
+      </pre>
+    </div>
+    <div class="ferrari-dots">
+      <!-- Ferrari fatto a puntini -->
+      <pre>
+        .     .
+       ..    ..
+      ...   ...   .''.
+      .... ....  :_\/_:
+      '.......'  : /\ :
+         ||||     '..'
+         ||||     ||||
+         ||||     ||||
+         ''''     ''''
+      </pre>
+    </div>
   </div>
 
   <script>
-    // Gestione click bottone
-    document.getElementById('start-button').addEventListener('click', function () {
-      // Nasconde il bottone
-      this.style.display = 'none';
-      // Mostra il contenuto principale
-      document.getElementById('main-content').style.display = 'flex';
+    // Seleziono il bottone e tengo conto del numero di clic
+    const button = document.getElementById('click-btn');
+    let clickCount = 0;
+
+    // Array di posizioni per far muovere il bottone
+    const positions = [
+      { top: '10%', left: '10%' },
+      { top: '70%', left: '20%' },
+      { top: '40%', left: '60%' }
+    ];
+
+    // Aggiungo evento click
+    button.addEventListener('click', () => {
+      clickCount++;
+
+      // Se siamo tra il primo e il terzo click, muovo il bottone
+      if (clickCount <= 3) {
+        const pos = positions[clickCount - 1];
+        button.style.top = pos.top;
+        button.style.left = pos.left;
+      } else {
+        // Alla quarta pressione cambio schermata
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('birthday').style.display = 'flex';
+      }
     });
   </script>
 </body>
